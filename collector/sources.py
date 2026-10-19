@@ -101,7 +101,37 @@ def custojusto():
 
 
 def piscapisca():
-    return []
+    """piscapisca.pt: página do modelo 190 (o 260E não tem página própria, fica por cobrir)."""
+    import html as H
+    out, seen = [], set()
+    base = "https://www.piscapisca.pt"
+    for path in ["/carros/mercedes-benz/190"]:
+        r = requests.get(base + path, headers=UA, timeout=30)
+        if r.status_code == 404:
+            continue
+        r.raise_for_status()
+        for m in re.finditer(r'<a\b[^>]*href="([^"]*?/carros/usados/[^"]+/(\w+))"[^>]*>(.*?)</a>', r.text, re.S):
+            href, pid, inner = m.group(1), m.group(2), m.group(3)
+            text = re.sub(r"\s+", " ", H.unescape(re.sub(r"<[^>]+>", " ", inner))).strip()
+            km = re.search(r"(?<!\d)(\d{1,3}(?:[\s\u00a0]\d{3})?)\s*km\b", text)
+            if not km or pid in seen:
+                continue  # ignora links só com imagem e repetidos
+            seen.add(pid)
+            rest = text[km.end():]
+            if re.search(r"diesel|el[eé]trico|h[ií]brido", rest, re.I):
+                continue
+            ym = re.search(r"\b(19\d\d|20\d\d)\b", rest)
+            region = rest[ym.end():].strip(" -•·") if ym else ""
+            nxt = r.text.find("/carros/usados/", m.end())
+            end = min(nxt if nxt != -1 else m.end() + 700, m.end() + 700)
+            seg = H.unescape(re.sub(r"<[^>]+>", " ", r.text[m.end():end]))
+            pm = re.search(r"([\d][\d\s\u00a0]*)\s*€", seg)
+            out.append({"id": f"pp-{pid}", "source": "PiscaPisca", "title": text[:km.start()].strip(),
+                        "desc": rest.strip(), "price": int(re.sub(r"\D", "", pm.group(1))) if pm else None,
+                        "year": int(ym.group(1)) if ym else None,
+                        "km": int(re.sub(r"\D", "", km.group(1))),
+                        "region": region, "url": href})
+    return out
 
 
 def auto_moto():

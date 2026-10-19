@@ -38,7 +38,7 @@ def main():
             db[it["id"]] = it; new.append(it)
     DATA.write_text(json.dumps(sorted(db.values(), key=lambda a: -a["first_seen"]),
                                ensure_ascii=False, indent=1))
-    if first_run:
+    if first_run and db:
         telegram(f"Radar 190E/260E ativo. Primeira recolha: {len(db)} anúncios guardados. "
                  "A partir de agora recebes só os novos.")
     else:

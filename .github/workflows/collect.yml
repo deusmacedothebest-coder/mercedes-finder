@@ -1,0 +1,26 @@
+name: Recolher anúncios
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # de 30 em 30 min (o GitHub pode atrasar uns minutos)
+  workflow_dispatch:         # botão "Run workflow" para testar à mão
+permissions:
+  contents: write
+concurrency: collect
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests
+      - run: python collector/main.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MAX_PRICE: ${{ vars.MAX_PRICE }}
+      - name: Guardar dados
+        run: |
+          git config user.name "radar-bot"; git config user.email "radar-bot@users.noreply.github.com"
+          git add data/anuncios.json
+          git diff --staged --quiet || (git commit -m "dados: novos anúncios" && git push)

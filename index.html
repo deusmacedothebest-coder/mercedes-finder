@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Radar 190E / 260E</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{--bg:#dde2e5;--panel:#eef1f3;--ink:#1e2a33;--mute:#5d6b76;--line:#c3cbd1;--acc:#2f5d7c;--accink:#fff;--warn:#a8680f;--rev:#7a4a8c;--ok:#2d7a55;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141b20;--panel:#1d272e;--ink:#e3e8eb;--mute:#8d9ba5;--line:#33424c;--acc:#6fa6c8;--accink:#10181d;--warn:#e0a24a;--rev:#c394d6;--ok:#6cc79a}}
+:root[data-theme="dark"]{--bg:#141b20;--panel:#1d272e;--ink:#e3e8eb;--mute:#8d9ba5;--line:#33424c;--acc:#6fa6c8;--accink:#10181d;--warn:#e0a24a;--rev:#c394d6;--ok:#6cc79a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "IBM Plex Sans",system-ui,sans-serif}
+h1,h2,.num{font-family:"Barlow Condensed","Arial Narrow",sans-serif}
+header{padding:20px 20px 8px;max-width:1100px;margin:0 auto}
+h1{margin:0;font-size:34px;letter-spacing:.5px;font-weight:700}
+.sub{color:var(--mute);margin:2px 0 0}
+.demo{display:inline-block;margin-top:10px;padding:3px 10px;border:1px solid var(--warn);color:var(--warn);border-radius:3px;font-size:13px}
+main{max-width:1100px;margin:0 auto;padding:12px 20px 40px;display:grid;grid-template-columns:230px 1fr;gap:24px}
+@media(max-width:760px){main{grid-template-columns:1fr}}
+nav{display:flex;flex-direction:column;gap:2px}
+@media(max-width:760px){nav{flex-direction:row;overflow-x:auto;padding-bottom:6px}}
+nav button{all:unset;cursor:pointer;display:flex;justify-content:space-between;gap:12px;padding:9px 12px;border-left:4px solid transparent;white-space:nowrap}
+nav button:hover{background:var(--panel)}
+nav button:focus-visible,.chip:focus-visible,select:focus-visible,input:focus-visible,.act:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+nav button[aria-pressed="true"]{background:var(--panel);border-left-color:var(--acc);font-weight:500}
+nav .c{font-family:"Barlow Condensed",sans-serif;font-size:18px;color:var(--mute)}
+nav .rev{color:var(--rev)}
+nav hr{border:0;border-top:1px solid var(--line);margin:8px 0;width:100%}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.chip{all:unset;cursor:pointer;padding:6px 12px;border:1px solid var(--line);border-radius:20px;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+select,input{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:6px 8px}
+input[type=number]{width:110px}
+h2{font-size:26px;margin:0 0 4px}
+.count{color:var(--mute);margin:0 0 12px}
+.card{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--acc);padding:12px 14px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;gap:6px 16px}
+.card.pecas{border-left-color:var(--warn)}
+.card.rever{border-left-color:var(--rev)}
+.card.fav{outline:2px solid var(--acc)}
+.t{font-weight:500;font-size:16px}
+.t a{color:inherit;text-decoration:none}.t a:hover{text-decoration:underline}
+.meta{color:var(--mute);font-size:13.5px}
+.price{font-family:"Barlow Condensed",sans-serif;font-size:28px;font-weight:700;text-align:right;line-height:1}
+.tag{display:inline-block;font-size:12.5px;padding:1px 7px;border-radius:3px;border:1px solid currentColor;margin-right:6px}
+.tag.new{color:var(--ok)}.tag.p{color:var(--warn)}.tag.r{color:var(--rev)}
+.row{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px}
+.act{all:unset;cursor:pointer;padding:4px 10px;border:1px solid var(--line);border-radius:4px;font-size:13.5px}
+.act:hover{border-color:var(--acc)}
+.hint{color:var(--rev);font-size:13.5px}
+.empty{padding:30px;border:1px dashed var(--line);color:var(--mute);text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>Radar 190E / 260E</h1>
+  <p class="sub">Anúncios de usados em Portugal, organizados por motorização. Atualizado de 30 em 30 minutos.</p>
+</header>
+<main>
+  <nav id="nav" aria-label="Categorias"></nav>
+  <section>
+    <div class="bar" id="bar1"></div>
+    <div class="bar">
+      <select id="src" aria-label="Site"><option value="">Todos os sites</option></select>
+      <label>Preço até <input id="max" type="number" min="0" step="500" placeholder="€"></label>
+      <input id="q" type="search" placeholder="Pesquisar no título" aria-label="Pesquisar">
+    </div>
+    <h2 id="h"></h2>
+    <p class="count" id="n"></p>
+    <div id="list"></div>
+  </section>
+</main>
+<script>
+var CATS=["190E 1.8","190E 2.0","190E 2.3 8v","190E 2.3 12v","190E 2.5 12v","190E 2.6","260E","190E 16v"];
+var REV="A rever";
+var SRC=["Standvirtual","OLX","Custojusto","PiscaPisca","Facebook"];
+var D=[];
+var KEY="w201radar:v1",S={};
+try{S=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){S={}}
+function persist(d,extra){S[d.key]=Object.assign(S[d.key]||{},{f:d.f,x:d.x},extra||{});try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+var st={cat:"Todas",kind:"all",only:"",fav:false};
+var $=function(i){return document.getElementById(i)};
+var fmt=function(n){return n.toLocaleString("pt-PT")};
+function inCat(d,c){return c==="Todas"||d.c===c}
+function visible(d){
+  if(d.x)return false;
+  if(st.kind!=="all"&&d.c!==REV&&d.k!==st.kind)return false;
+  if(st.only==="new"&&!d.n)return false;
+  if(st.only==="fav"&&!d.f)return false;
+  if($("src").value&&d.s!==$("src").value)return false;
+  var m=parseInt($("max").value,10);if(m&&d.p>m)return false;
+  var q=$("q").value.trim().toLowerCase();if(q&&d.t.toLowerCase().indexOf(q)<0)return false;
+  return true;
+}
+function nav(){
+  var h="";
+  var all=["Todas"].concat(CATS);
+  all.forEach(function(c){
+    var n=D.filter(function(d){return !d.x&&d.c!==REV&&inCat(d,c)}).length;
+    h+='<button aria-pressed="'+(st.cat===c)+'" data-c="'+c+'"><span>'+(c==="Todas"?"Todas as categorias":c)+'</span><span class="c">'+n+'</span></button>';
+  });
+  var r=D.filter(function(d){return !d.x&&d.c===REV}).length;
+  h+='<hr><button class="rev" aria-pressed="'+(st.cat===REV)+'" data-c="'+REV+'"><span>'+REV+'</span><span class="c rev">'+r+'</span></button>';
+  $("nav").innerHTML=h;
+  Array.prototype.forEach.call($("nav").querySelectorAll("button"),function(b){b.onclick=function(){st.cat=b.getAttribute("data-c");render()}});
+}
+function chips(){
+  var o=[["all","Todos"],["bom","Bons"],["pecas","Para peças"]];
+  var h="";
+  o.forEach(function(x){h+='<button class="chip" aria-pressed="'+(st.kind===x[0])+'" data-k="'+x[0]+'">'+x[1]+'</button>'});
+  h+='<button class="chip" aria-pressed="'+(st.only==="new")+'" data-o="new">Só novos</button>';
+  h+='<button class="chip" aria-pressed="'+(st.only==="fav")+'" data-o="fav">Favoritos</button>';
+  $("bar1").innerHTML=h;
+  Array.prototype.forEach.call($("bar1").querySelectorAll("button"),function(b){b.onclick=function(){
+    if(b.hasAttribute("data-k"))st.kind=b.getAttribute("data-k");
+    else{var v=b.getAttribute("data-o");st.only=st.only===v?"":v}
+    render()}});
+}
+function list(){
+  var items=D.filter(function(d){return inCat(d,st.cat)&&visible(d)});
+  $("h").textContent=st.cat==="Todas"?"Todas as categorias":st.cat;
+  $("n").textContent=items.length+(items.length===1?" anúncio":" anúncios");
+  if(!items.length){$("list").innerHTML='<div class="empty">Sem anúncios com estes filtros. Experimenta limpar o preço máximo ou a pesquisa.</div>';return}
+  var h="";
+  items.forEach(function(d){
+    var cls=d.c===REV?"rever":(d.k==="pecas"?"pecas":"");
+    var tags=(d.n?'<span class="tag new">Novo</span>':"")+(d.c===REV?'<span class="tag r">A rever</span>':(d.k==="pecas"?'<span class="tag p">Peças</span>':""));
+    var meta=[d.s,d.r,d.y?d.y:"ano ?",d.km?fmt(d.km)+" km":"km ?"].join(" · ");
+    h+='<article class="card '+cls+(d.f?" fav":"")+'"><div><div class="t">'+tags+'<a href="'+d.u+'" target="_blank" rel="noopener">'+d.t+'</a></div><div class="meta">'+meta+'</div></div><div class="price">'+(d.p?fmt(d.p):"?")+' €</div><div class="row">';
+    if(d.c===REV){
+      h+='<span class="hint">'+(d.h||"Falta a motorização")+'</span><select data-m="'+d.id+'" aria-label="Mover para categoria"><option value="">Mover para…</option>'+CATS.map(function(c){return'<option>'+c+'</option>'}).join("")+'</select>';
+    }
+    h+='<button class="act" data-f="'+d.id+'">'+(d.f?"Remover dos favoritos":"Guardar nos favoritos")+'</button><button class="act" data-x="'+d.id+'">Descartar</button></div></article>';
+  });
+  $("list").innerHTML=h;
+  var q=function(a,fn){Array.prototype.forEach.call($("list").querySelectorAll("["+a+"]"),function(e){fn(e,+e.getAttribute(a)||e.getAttribute(a))})};
+  q("data-f",function(e,i){e.onclick=function(){D[i].f=!D[i].f;persist(D[i]);render()}});
+  q("data-x",function(e,i){e.onclick=function(){D[i].x=true;persist(D[i]);render()}});
+  q("data-m",function(e,i){e.onchange=function(){if(e.value){D[i].c=e.value;D[i].h="";persist(D[i],{c:e.value});render()}}});
+}
+function render(){nav();chips();list()}
+["src","max","q"].forEach(function(i){$(i).oninput=list;$(i).onchange=list});
+$("list").innerHTML='<div class="empty">A carregar anúncios…</div>';
+fetch("data/anuncios.json?v="+Date.now()).then(function(r){return r.json()}).then(function(a){
+  var now=Date.now()/1000,seen={};
+  D=a.map(function(o,i){var st=S[o.id]||{};seen[o.source]=1;
+    return {id:i,key:o.id,t:o.title,c:st.c||o.cat,k:o.kind,p:o.price||0,y:o.year||0,km:o.km||0,s:o.source,r:o.region||"",n:(now-o.first_seen)<172800,h:o.hint||"",u:o.url,f:!!st.f,x:!!st.x}});
+  Object.keys(seen).sort().forEach(function(s){var o=document.createElement("option");o.textContent=s;$("src").appendChild(o)});
+  render();
+}).catch(function(){$("list").innerHTML='<div class="empty">Não foi possível carregar o ficheiro data/anuncios.json. Confirma que a app está no mesmo repositório que a pasta data.</div>'});
+</script>
+</body>
+</html>

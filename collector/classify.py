@@ -8,7 +8,9 @@ REVER = "A rever"
 PECAS = ["peças", "pecas", "desmontar", "desmontagem", "sucata", "não anda", "nao anda",
          "motor avariado", "para restauro", "p/ restauro", "abate", "só peças", "so pecas",
          "vendo em peças", "acidentado", "sinistrado"]
-DIESEL = [r"\b190\s?d\b", r"\b2\.0\s?d\b", r"\b2\.5\s?d\b", r"\b2\.5\s?td\b", "diesel", "gasóleo", "gasoleo"]
+ANTIGOS = [r"190\s?-?sl\b", r"190\s?-?dc\b", r"190\s?-?c\b", r"fintail", r"rabo de peixe",
+           r"\bw110\b", r"\bw121\b", r"pagoda", r"\bponton\b"]
+DIESEL = [r"\bturbo\b", r"\b190\s?d\b", r"\b2\.0\s?d\b", r"\b2\.5\s?d\b", r"\b2\.5\s?td\b", "diesel", "gasóleo", "gasoleo"]
 
 
 def _has(txt, pats):
@@ -25,8 +27,10 @@ def classify(title, desc=""):
         re.search(r"\b190\b", ttl) and re.search(r"mercedes|benz", t))
     if not (is260 or is190):
         return None
+    if _has(t, ANTIGOS):
+        return None  # clássicos 190 SL / W110 / W121: não são W201
     if is190 and not is260 and _has(ttl, DIESEL):
-        return None  # 190D / diesel: excluído
+        return None  # 190D / diesel / turbo: excluído
 
     kind = "pecas" if any(k in t for k in PECAS) else "bom"
     if is260 and not is190:
@@ -45,7 +49,7 @@ def classify(title, desc=""):
             cat = "190E 2.3 8v"
         else:
             return {"cat": REVER, "kind": kind, "hint": "2.3 sem indicar 8v/12v"}
-    elif re.search(r"\b2\.0\b", t):
+    elif re.search(r"\b2\.0\b", t) or re.search(r"\b2000\b", ttl):
         cat = "190E 2.0"
     elif re.search(r"\b1\.8\b", t):
         cat = "190E 1.8"
@@ -58,6 +62,6 @@ if __name__ == "__main__":
     tests = ["Mercedes 190E 1.8 manual", "190E 2.0 para peças", "Mercedes 190E 2.3 8v",
              "190 E 2.3 12v raro", "Mercedes 190E 2.5-16 Evolution", "190E 2.6 automático",
              "Mercedes 260E W124", "Mercedes W201 antigo", "Mercedes 190E 2.3 gasolina",
-             "Mercedes 190 D diesel", "Honda Civic", "Mercedes 190 gasolina clássico"]
+             "Mercedes 190 D diesel", "Mercedes-Benz 190 SL - 1962", "Mercedes-Benz 190 2.5 Turbo - 88", "Mercedes-Benz 190 2000 - 90", "Mercedes-Benz 190 DC W110 Fintail", "Mercedes-Benz 190 C Rabo de Peixe", "Honda Civic", "Mercedes 190 gasolina clássico"]
     for x in tests:
         print(f"{x:40} -> {classify(x)}")

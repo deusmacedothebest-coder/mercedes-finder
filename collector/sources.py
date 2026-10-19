@@ -65,7 +65,39 @@ def standvirtual():
 
 # Ainda por implementar: precisam de ver o HTML real primeiro.
 def custojusto():
-    return []
+    """custojusto.pt: páginas de modelo e de pesquisa de texto, nacionais."""
+    import html as H
+    out, seen = [], set()
+    base = "https://www.custojusto.pt"
+    paths = ["/portugal/veiculos/carros-usados/mercedes-benz/190",
+             "/portugal/veiculos/carros-usados/q/mercedes%20190e",
+             "/portugal/veiculos/carros-usados/q/mercedes%20260e",
+             "/portugal/veiculos/carros-usados/q/mercedes%20w201"]
+    for p in paths:
+        r = requests.get(base + p, headers=UA, timeout=30)
+        if r.status_code == 404:
+            continue
+        r.raise_for_status()
+        for m in re.finditer(r'<a\b[^>]*href="([^"]+)"[^>]*>(.*?)</a>', r.text, re.S):
+            href, inner = m.group(1), m.group(2)
+            idm = re.search(r"/veiculos/[^?\"]*-(\d{6,})(?:\?|$)", href)
+            title = H.unescape(re.sub(r"<[^>]+>", " ", inner)).strip()
+            if not idm or not title or idm.group(1) in seen:
+                continue  # ignora links só com imagem e repetidos
+            seen.add(idm.group(1))
+            nxt = r.text.find("<h2", m.end())
+            end = min(nxt if nxt != -1 else m.end() + 700, m.end() + 700)
+            seg = H.unescape(re.sub(r"<[^>]+>", " ", r.text[m.end():end]))
+            seg = re.sub(r"\s+", " ", seg)
+            pm = re.search(r"([\d][\d\s\u00a0]*)\s*€", seg)
+            rm = re.search(r"·\s*(\d{4})\s+(.+?)\s+[\d][\d\s\u00a0]*\s*€", seg)
+            url = href.split("?")[0]
+            url = url if url.startswith("http") else base + url
+            out.append({"id": f"cj-{idm.group(1)}", "source": "Custojusto", "title": title,
+                        "desc": seg[:200], "price": int(re.sub(r"\D", "", pm.group(1))) if pm else None,
+                        "year": int(rm.group(1)) if rm else None, "km": None,
+                        "region": re.sub(r"^ou anterior\s*", "", rm.group(2)) if rm else "", "url": url})
+    return out
 
 
 def piscapisca():

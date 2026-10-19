@@ -41,12 +41,24 @@ def main():
     if first_run and db:
         telegram(f"Radar 190E/260E ativo. Primeira recolha: {len(db)} anúncios guardados. "
                  "A partir de agora recebes só os novos.")
+    elif len(new) > 8:  # muitos de uma vez: um resumo em vez de uma mensagem por anúncio
+        lines = []
+        for a in sorted(new, key=lambda x: x["cat"]):
+            p = f"{a['price']} €" if a.get("price") else "?"
+            lines.append(f"{a['cat']} · {p} · {a['title']} ({a.get('region','')})\n{a['url']}")
+        msg = f"Radar: {len(new)} anúncios novos\n\n"
+        for ln in lines:
+            if len(msg) + len(ln) > 3800:
+                telegram(msg); msg = ""
+            msg += ln + "\n\n"
+        telegram(msg)
     else:
         for a in new:
             tag = "PEÇAS" if a["kind"] == "pecas" else ("A REVER" if a["cat"] == REVER else "")
             extra = f"\n({a['hint']})" if a.get("hint") else ""
             p = f"{a['price']} €" if a.get("price") else "preço ?"
             telegram(f"{a['cat']} {tag}\n{a['title']}\n{p} · {a['source']} · {a.get('region','')}{extra}\n{a['url']}")
+            time.sleep(1)
     if errors and len(errors) == len(SOURCES):
         telegram("Radar: todas as fontes falharam.\n" + "\n".join(errors)); sys.exit(1)
     print(f"{len(new)} novos")

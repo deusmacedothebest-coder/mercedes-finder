@@ -5,7 +5,7 @@ from sources import SOURCES
 
 DATA = Path(__file__).resolve().parent.parent / "data" / "anuncios.json"
 TOKEN, CHAT = os.getenv("TELEGRAM_TOKEN"), os.getenv("TELEGRAM_CHAT_ID")
-MAX_PRICE = int(os.getenv("MAX_PRICE", "0"))  # 0 = sem limite
+MAX_PRICE = int(os.getenv("MAX_PRICE") or 0)  # 0 = sem limite
 
 
 def telegram(text):

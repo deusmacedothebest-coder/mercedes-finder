@@ -72,4 +72,39 @@ def piscapisca():
     return []
 
 
-SOURCES = {"OLX": olx, "Standvirtual": standvirtual, "Custojusto": custojusto, "PiscaPisca": piscapisca}
+def auto_moto():
+    """auto.moto.pt: uma página por modelo, HTML simples com um link por anúncio."""
+    import html as H
+    out, seen = [], set()
+    base = "https://auto.moto.pt"
+    for path in ["/carros/mercedes-benz/190-e", "/carros/mercedes-benz/190",
+                 "/carros/mercedes-benz/260-e", "/carros/mercedes-benz/260"]:
+        r = requests.get(base + path, headers=UA, timeout=30)
+        if r.status_code == 404:
+            continue  # esse modelo pode não ter página
+        r.raise_for_status()
+        for m in re.finditer(r"<a\b([^>]*)>(.*?)</a>", r.text, re.S):
+            attrs, inner = m.group(1), m.group(2)
+            h = re.search(r'href="([^"]+)"', attrs)
+            if not h:
+                continue
+            idm = re.search(r"/carros/[^/]+/mercedes-benz/[^/]+/[^/]+/(\d+)$", h.group(1))
+            if not idm or idm.group(1) in seen:
+                continue
+            seen.add(idm.group(1))
+            t = re.search(r'title="([^"]+)"', attrs)
+            title = H.unescape(t.group(1)) if t else ""
+            text = H.unescape(re.sub(r"<[^>]+>", " ", inner))
+            pm = re.search(r"([\d][\d\s\u00a0.]*)\s*EUR", text)
+            km = re.search(r"([\d][\d\s\u00a0]*)\s*km", title)
+            region = title.split("·")[-1].strip() if "·" in title else ""
+            url = h.group(1) if h.group(1).startswith("http") else base + h.group(1)
+            out.append({"id": f"am-{idm.group(1)}", "source": "AutoMoto",
+                        "title": title.split(" — ")[0], "desc": text,
+                        "price": int(re.sub(r"\D", "", pm.group(1))) if pm else None,
+                        "year": None, "km": int(re.sub(r"\D", "", km.group(1))) if km else None,
+                        "region": region, "url": url})
+    return out
+
+
+SOURCES = {"AutoMoto": auto_moto, "OLX": olx, "Standvirtual": standvirtual, "Custojusto": custojusto, "PiscaPisca": piscapisca}

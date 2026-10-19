@@ -1,1 +1,29 @@
-[]
+[
+ {
+  "id": "am-6932189",
+  "source": "AutoMoto",
+  "title": "Mercedes-Benz 190 E 2.6 Sportline 1989 Gasolina",
+  "price": 16900,
+  "year": null,
+  "km": 200000,
+  "region": "Porto",
+  "url": "https://auto.moto.pt/carros/sedan/mercedes-benz/190-e/porto/6932189",
+  "cat": "190E 2.6",
+  "kind": "bom",
+  "first_seen": 1792440704
+ },
+ {
+  "id": "am-6926826",
+  "source": "AutoMoto",
+  "title": "Mercedes-Benz 190 e 1993 Gasolina",
+  "price": 14900,
+  "year": null,
+  "km": 41200,
+  "region": "Ilha de Porto Santo",
+  "url": "https://auto.moto.pt/carros/sedan/mercedes-benz/190/portosanto/6926826",
+  "cat": "A rever",
+  "kind": "bom",
+  "hint": "Falta a motorização",
+  "first_seen": 1792440704
+ }
+]

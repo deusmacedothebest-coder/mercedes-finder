@@ -1,5 +1,18 @@
 [
  {
+  "id": "cj-45178572",
+  "source": "Custojusto",
+  "title": "Mercedes-Benz 190 E 2.3 16V - 88",
+  "price": 32999,
+  "year": 1988,
+  "km": null,
+  "region": "Vila Nova de Gaia",
+  "url": "https://www.custojusto.pt/porto/veiculos/carros-usados/sedan/mercedes-benz-190-e-2-3-16v-45178572",
+  "cat": "190E 16v",
+  "kind": "bom",
+  "first_seen": 1792501919
+ },
+ {
   "id": "pp-eOLjv",
   "source": "PiscaPisca",
   "title": "Mercedes-Benz 190 1.8 E, 107cv",

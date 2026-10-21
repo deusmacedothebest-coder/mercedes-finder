@@ -1,5 +1,18 @@
 [
  {
+  "id": "cj-45451044",
+  "source": "Custojusto",
+  "title": "Mercedes-Benz 190 2.5 - 88",
+  "price": 3500,
+  "year": 1988,
+  "km": null,
+  "region": "Paredes de Coura",
+  "url": "https://www.custojusto.pt/viana-do-castelo/veiculos/carros-usados/utilitario/mercedes-benz-190-2-5-45451044",
+  "cat": "190E 2.5 12v",
+  "kind": "bom",
+  "first_seen": 1792596345
+ },
+ {
   "id": "cj-45450663",
   "source": "Custojusto",
   "title": "Mercedes-Benz 190 1.7 - 91",

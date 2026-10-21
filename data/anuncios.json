@@ -1,5 +1,19 @@
 [
  {
+  "id": "cj-45450663",
+  "source": "Custojusto",
+  "title": "Mercedes-Benz 190 1.7 - 91",
+  "price": 8650,
+  "year": 1991,
+  "km": null,
+  "region": "Maia",
+  "url": "https://www.custojusto.pt/porto/veiculos/carros-usados/sedan/mercedes-benz-190-1-7-45450663",
+  "cat": "A rever",
+  "kind": "bom",
+  "hint": "Falta a motorização",
+  "first_seen": 1792588388
+ },
+ {
   "id": "cj-45178572",
   "source": "Custojusto",
   "title": "Mercedes-Benz 190 E 2.3 16V - 88",

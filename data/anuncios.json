@@ -1,5 +1,18 @@
 [
  {
+  "id": "cj-45452377",
+  "source": "Custojusto",
+  "title": "Mercedes-Benz 190 2.5 - 87",
+  "price": 3750,
+  "year": 1987,
+  "km": null,
+  "region": "Loures",
+  "url": "https://www.custojusto.pt/lisboa/veiculos/carros-usados/citadino/mercedes-benz-190-2-5-45452377",
+  "cat": "190E 2.5 12v",
+  "kind": "bom",
+  "first_seen": 1792677454
+ },
+ {
   "id": "cj-45451044",
   "source": "Custojusto",
   "title": "Mercedes-Benz 190 2.5 - 88",

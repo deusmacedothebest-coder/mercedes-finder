@@ -1,5 +1,19 @@
 [
  {
+  "id": "cj-45468487",
+  "source": "Custojusto",
+  "title": "Mercedes-Benz 190 Fase 1 - 86",
+  "price": 2250,
+  "year": 1986,
+  "km": null,
+  "region": "Vila Verde",
+  "url": "https://www.custojusto.pt/braga/veiculos/carros-usados/classico/mercedes-benz-190-fase-1-45468487",
+  "cat": "A rever",
+  "kind": "bom",
+  "hint": "Falta a motorização",
+  "first_seen": 1793052235
+ },
+ {
   "id": "cj-45460168",
   "source": "Custojusto",
   "title": "Mercedes-Benz 190 1.8E - AMG - 92",

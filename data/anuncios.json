@@ -1,5 +1,19 @@
 [
  {
+  "id": "cj-45460168",
+  "source": "Custojusto",
+  "title": "Mercedes-Benz 190 1.8E - AMG - 92",
+  "price": 4500,
+  "year": 1992,
+  "km": null,
+  "region": "Matosinhos",
+  "url": "https://www.custojusto.pt/porto/veiculos/carros-usados/sedan/mercedes-benz-190-1-8e-amg-45460168",
+  "cat": "A rever",
+  "kind": "bom",
+  "hint": "Falta a motorização",
+  "first_seen": 1793037120
+ },
+ {
   "id": "cj-45452377",
   "source": "Custojusto",
   "title": "Mercedes-Benz 190 2.5 - 87",

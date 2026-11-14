@@ -1,5 +1,19 @@
 [
  {
+  "id": "cj-45518169",
+  "source": "Custojusto",
+  "title": "Mercedes-Benz 190 Cdi - 02",
+  "price": 6000,
+  "year": 2002,
+  "km": null,
+  "region": "Vila Real",
+  "url": "https://www.custojusto.pt/vila-real/veiculos/carros-usados/carrinha/mercedes-benz-190-cdi-45518169",
+  "cat": "A rever",
+  "kind": "bom",
+  "hint": "Falta a motorização",
+  "first_seen": 1794696540
+ },
+ {
   "id": "cj-45508074",
   "source": "Custojusto",
   "title": "Mercedes-Benz 190 E 2.5-16 - 91",

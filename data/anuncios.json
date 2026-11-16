@@ -1,5 +1,18 @@
 [
  {
+  "id": "cj-45520380",
+  "source": "Custojusto",
+  "title": "Mercedes-Benz 190 190E 2.0 - 91",
+  "price": 11500,
+  "year": 1991,
+  "km": null,
+  "region": "Beja",
+  "url": "https://www.custojusto.pt/beja/veiculos/carros-usados/classico/mercedes-benz-190-190e-2-0-45520380",
+  "cat": "190E 2.0",
+  "kind": "bom",
+  "first_seen": 1794854604
+ },
+ {
   "id": "cj-45518169",
   "source": "Custojusto",
   "title": "Mercedes-Benz 190 Cdi - 02",

@@ -1,5 +1,18 @@
 [
  {
+  "id": "cj-45531795",
+  "source": "Custojusto",
+  "title": "Mercedes-Benz 190 2.0 - 89",
+  "price": 2900,
+  "year": 1989,
+  "km": null,
+  "region": "Póvoa de Lanhoso",
+  "url": "https://www.custojusto.pt/braga/veiculos/carros-usados/sedan/mercedes-benz-190-2-0-45531795",
+  "cat": "190E 2.0",
+  "kind": "bom",
+  "first_seen": 1795182176
+ },
+ {
   "id": "cj-45528550",
   "source": "Custojusto",
   "title": "Mercedes-Benz 190 w201 - 87",
